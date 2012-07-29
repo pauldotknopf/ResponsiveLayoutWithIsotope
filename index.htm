@@ -1,0 +1,528 @@
+﻿<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Twitter bootstrap responsive layout with Isotope plugin</title>
+    
+    <link href="/Content/Css/bootstrap.css"             rel="stylesheet" type="text/css" />
+    <link href="/Content/Css/bootstrap-responsive.css"  rel="stylesheet" type="text/css" />
+    <link href="/Content/Css/isotope.css"               rel="stylesheet" type="text/css" />
+
+    <script src="/Content/Js/jquery-1.7.2.js"   type="text/javascript"></script>
+    <script src="/Content/Js/jquery.isotope.js" type="text/javascript"></script>
+    <script src="/Content/Js/bootstrap.js"      type="text/javascript"></script>
+
+    <style>
+        .container
+        {
+            margin-top: 10px;
+        }
+        .inner
+        {
+            margin: 0px 0px 10px 0px;
+            padding: 10px;
+            background-color: #EEEEEE;
+        }
+        .element
+        {
+            margin: 0;
+        }
+    </style>
+    <script type="text/javascript">
+        var $container = null;
+
+        $(function () {
+
+            $container = $('#isotope');
+
+            // add random heights and widths
+            $container.find('.element').each(function () {
+                var $this = $(this);
+                var number = parseInt($this.find('.number').text(), 10);
+                if (number % 7 % 2 === 1) {
+                    $this.addClass('width2');
+                }
+                if (number % 3 === 0) {
+                    $this.addClass('height2');
+                }
+            });
+
+            // set the widths on page load
+            setWidths();
+
+            // initialize Isotope
+            $container.isotope({
+                sortBy: 'number',
+                getSortData: {
+                    number: function ($elem) {
+                        var number = $elem.hasClass('element') ?
+                            $elem.find('.number').text() :
+                            $elem.attr('data-number');
+                        return parseInt(number, 10);
+                    },
+                    alphabetical: function ($elem) {
+                        var name = $elem.find('.name'),
+                            itemText = name.length ? name : $elem;
+                        return itemText.text();
+                    }
+                },
+                resizable: false, // disable normal resizing
+                // set columnWidth to a percentage of container width
+                masonry: { columnWidth: getUnitWidth() }
+            });
+
+            // update columnWidth on window resize
+            $(window).smartresize(function () {
+                // set the widths on resize
+                setWidths();
+                // reinit isotop
+                $container.isotope({
+                    // update columnWidth to a percentage of container width
+                    masonry: { columnWidth: getUnitWidth() }
+                });
+            });
+
+        });
+
+        // get the column width per unit.
+        // an item may be multiple units tall or wide, but we need to figuire out the unit dynamically on resize
+        function getUnitWidth() {
+            var width;
+            if ($(".visible-phone").is(":visible")) {
+                width = $container.width() / 2;
+            } else if ($(".visible-tablet").is(":visible")) {
+                width = $container.width() / 3;
+            } else {
+                width = $container.width() / 5;
+            }
+            return width;
+        }
+
+        // set all the widths to the elements
+        function setWidths() {
+            var unitWidth = getUnitWidth() -1;
+            $container.children(":not(.width2)").css({ width: unitWidth });
+            $container.children(".width2").css({ width: (unitWidth * 2) });
+            $container.children(":not(.height2)").css({ height: unitWidth });
+            $container.children(".height2").css({ height: (unitWidth * 2) });
+        }
+
+    </script>
+</head>
+<body>
+    <div class="visible-phone"></div>
+    <div class="visible-tablet"></div>
+    <div class="visible-desktop"></div>
+    <div class="container">
+        <header class="row">
+            <div class="span6">
+                <div class="inner">
+                    Logo
+                </div>
+            </div>
+            <div class="span6 hidden-phone">
+                <div class="inner">
+                    Header information
+                </div>
+            </div>
+        </header>
+        <div role="main" class="row">
+            <aside class="span3">
+                <div class="inner">
+                    Left column
+                </div>
+            </aside>
+            <div class="span6">
+                <div class="inner">
+                    <div class="variable-sizes super-list" id="isotope">
+                        <div class="element alkaline-earth metal   " data-symbol="Mg" data-category="alkaline-earth">
+                            <p class="number">
+                                12</p>
+                            <h3 class="symbol">
+                                Mg</h3>
+                            <h2 class="name">
+                                Magnesium</h2>
+                            <p class="weight">
+                                24.305</p>
+                        </div>
+                        <div class="element actinoid metal inner-transition   " data-symbol="U" data-category="actinoid">
+                            <p class="number">
+                                92</p>
+                            <h3 class="symbol">
+                                U</h3>
+                            <h2 class="name">
+                                Uranium</h2>
+                            <p class="weight">
+                                238.02891</p>
+                        </div>
+                        <div class="element lanthanoid metal inner-transition   " data-symbol="Gd" data-category="lanthanoid">
+                            <p class="number">
+                                64</p>
+                            <h3 class="symbol">
+                                Gd</h3>
+                            <h2 class="name">
+                                Gadolinium</h2>
+                            <p class="weight">
+                                157.25</p>
+                        </div>
+                        <div class="element transition metal   " data-symbol="Y" data-category="transition">
+                            <p class="number">
+                                39</p>
+                            <h3 class="symbol">
+                                Y</h3>
+                            <h2 class="name">
+                                Yttrium</h2>
+                            <p class="weight">
+                                88.90585</p>
+                        </div>
+                        <div class="element metalloid   " data-symbol="B" data-category="metalloid">
+                            <p class="number">
+                                5</p>
+                            <h3 class="symbol">
+                                B</h3>
+                            <h2 class="name">
+                                Boron</h2>
+                            <p class="weight">
+                                10.811</p>
+                        </div>
+                        <div class="element transition metal   " data-symbol="Fe" data-category="transition">
+                            <p class="number">
+                                26</p>
+                            <h3 class="symbol">
+                                Fe</h3>
+                            <h2 class="name">
+                                Iron</h2>
+                            <p class="weight">
+                                55.845</p>
+                        </div>
+                        <div class="element actinoid metal inner-transition   " data-symbol="Am" data-category="actinoid">
+                            <p class="number">
+                                95</p>
+                            <h3 class="symbol">
+                                Am</h3>
+                            <h2 class="name">
+                                Americium</h2>
+                            <p class="weight">
+                                (243)</p>
+                        </div>
+                        <div class="element transition metal   " data-symbol="Zn" data-category="transition">
+                            <p class="number">
+                                30</p>
+                            <h3 class="symbol">
+                                Zn</h3>
+                            <h2 class="name">
+                                Zinc</h2>
+                            <p class="weight">
+                                65.38</p>
+                        </div>
+                        <div class="element lanthanoid metal inner-transition   " data-symbol="Pm" data-category="lanthanoid">
+                            <p class="number">
+                                61</p>
+                            <h3 class="symbol">
+                                Pm</h3>
+                            <h2 class="name">
+                                Promethium</h2>
+                            <p class="weight">
+                                (145)</p>
+                        </div>
+                        <div class="element post-transition metal   " data-symbol="In" data-category="post-transition">
+                            <p class="number">
+                                49</p>
+                            <h3 class="symbol">
+                                In</h3>
+                            <h2 class="name">
+                                Indium</h2>
+                            <p class="weight">
+                                114.818</p>
+                        </div>
+                        <div class="element metalloid   " data-symbol="As" data-category="metalloid">
+                            <p class="number">
+                                33</p>
+                            <h3 class="symbol">
+                                As</h3>
+                            <h2 class="name">
+                                Arsenic</h2>
+                            <p class="weight">
+                                74.9216</p>
+                        </div>
+                        <div class="element lanthanoid metal inner-transition   " data-symbol="Er" data-category="lanthanoid">
+                            <p class="number">
+                                68</p>
+                            <h3 class="symbol">
+                                Er</h3>
+                            <h2 class="name">
+                                Erbium</h2>
+                            <p class="weight">
+                                167.259</p>
+                        </div>
+                        <div class="element other nonmetal   " data-symbol="Se" data-category="other">
+                            <p class="number">
+                                34</p>
+                            <h3 class="symbol">
+                                Se</h3>
+                            <h2 class="name">
+                                Selenium</h2>
+                            <p class="weight">
+                                78.96</p>
+                        </div>
+                        <div class="element alkaline-earth metal   " data-symbol="Sr" data-category="alkaline-earth">
+                            <p class="number">
+                                38</p>
+                            <h3 class="symbol">
+                                Sr</h3>
+                            <h2 class="name">
+                                Strontium</h2>
+                            <p class="weight">
+                                87.62</p>
+                        </div>
+                        <div class="element transition metal   " data-symbol="Zr" data-category="transition">
+                            <p class="number">
+                                40</p>
+                            <h3 class="symbol">
+                                Zr</h3>
+                            <h2 class="name">
+                                Zirconium</h2>
+                            <p class="weight">
+                                91.224</p>
+                        </div>
+                        <div class="element halogen nonmetal   " data-symbol="At" data-category="halogen">
+                            <p class="number">
+                                85</p>
+                            <h3 class="symbol">
+                                At</h3>
+                            <h2 class="name">
+                                Astatine</h2>
+                            <p class="weight">
+                                (210)</p>
+                        </div>
+                        <div class="element transition metal   " data-symbol="Nb" data-category="transition">
+                            <p class="number">
+                                41</p>
+                            <h3 class="symbol">
+                                Nb</h3>
+                            <h2 class="name">
+                                Niobium</h2>
+                            <p class="weight">
+                                92.90638</p>
+                        </div>
+                        <div class="element other nonmetal   " data-symbol="O" data-category="other">
+                            <p class="number">
+                                8</p>
+                            <h3 class="symbol">
+                                O</h3>
+                            <h2 class="name">
+                                Oxygen</h2>
+                            <p class="weight">
+                                15.9994</p>
+                        </div>
+                        <div class="element actinoid metal inner-transition   " data-symbol="Bk" data-category="actinoid">
+                            <p class="number">
+                                97</p>
+                            <h3 class="symbol">
+                                Bk</h3>
+                            <h2 class="name">
+                                Berkelium</h2>
+                            <p class="weight">
+                                (247)</p>
+                        </div>
+                        <div class="element halogen nonmetal   " data-symbol="F" data-category="halogen">
+                            <p class="number">
+                                9</p>
+                            <h3 class="symbol">
+                                F</h3>
+                            <h2 class="name">
+                                Fluorine</h2>
+                            <p class="weight">
+                                18.9984032</p>
+                        </div>
+                        <div class="element actinoid metal inner-transition   " data-symbol="Cf" data-category="actinoid">
+                            <p class="number">
+                                98</p>
+                            <h3 class="symbol">
+                                Cf</h3>
+                            <h2 class="name">
+                                Californium</h2>
+                            <p class="weight">
+                                (251)</p>
+                        </div>
+                        <div class="element noble-gas nonmetal   " data-symbol="Ne" data-category="noble-gas">
+                            <p class="number">
+                                10</p>
+                            <h3 class="symbol">
+                                Ne</h3>
+                            <h2 class="name">
+                                Neon</h2>
+                            <p class="weight">
+                                20.1797</p>
+                        </div>
+                        <div class="element other nonmetal   " data-symbol="P" data-category="other">
+                            <p class="number">
+                                15</p>
+                            <h3 class="symbol">
+                                P</h3>
+                            <h2 class="name">
+                                Phosphorus</h2>
+                            <p class="weight">
+                                30.973762</p>
+                        </div>
+                        <div class="element actinoid metal inner-transition   " data-symbol="Fm" data-category="actinoid">
+                            <p class="number">
+                                100</p>
+                            <h3 class="symbol">
+                                Fm</h3>
+                            <h2 class="name">
+                                Fermium</h2>
+                            <p class="weight">
+                                (257)</p>
+                        </div>
+                        <div class="element other nonmetal   " data-symbol="S" data-category="other">
+                            <p class="number">
+                                16</p>
+                            <h3 class="symbol">
+                                S</h3>
+                            <h2 class="name">
+                                Sulfur</h2>
+                            <p class="weight">
+                                32.065</p>
+                        </div>
+                        <div class="element alkaline-earth metal   " data-symbol="Ca" data-category="alkaline-earth">
+                            <p class="number">
+                                20</p>
+                            <h3 class="symbol">
+                                Ca</h3>
+                            <h2 class="name">
+                                Calcium</h2>
+                            <p class="weight">
+                                40.078</p>
+                        </div>
+                        <div class="element other nonmetal   " data-symbol="C" data-category="other">
+                            <p class="number">
+                                6</p>
+                            <h3 class="symbol">
+                                C</h3>
+                            <h2 class="name">
+                                Carbon</h2>
+                            <p class="weight">
+                                12.0107</p>
+                        </div>
+                        <div class="element alkali metal   " data-symbol="Rb" data-category="alkali">
+                            <p class="number">
+                                37</p>
+                            <h3 class="symbol">
+                                Rb</h3>
+                            <h2 class="name">
+                                Rubidium</h2>
+                            <p class="weight">
+                                85.4678</p>
+                        </div>
+                        <div class="element post-transition metal   " data-symbol="Uup" data-category="post-transition">
+                            <p class="number">
+                                115</p>
+                            <h3 class="symbol">
+                                Uup</h3>
+                            <h2 class="name">
+                                Ununpentium</h2>
+                            <p class="weight">
+                                (288)</p>
+                        </div>
+                        <div class="element transition metal   " data-symbol="Sc" data-category="transition">
+                            <p class="number">
+                                21</p>
+                            <h3 class="symbol">
+                                Sc</h3>
+                            <h2 class="name">
+                                Scandium</h2>
+                            <p class="weight">
+                                44.955912</p>
+                        </div>
+                        <div class="element feature alkali width2 height2">
+                            <p class="number">
+                                1</p>
+                            <h3 class="symbol">
+                                Iso</h3>
+                            <h2 class="name">
+                                An exquisite jQuery plugin for magical&nbsp;layouts</h2>
+                        </div>
+                        <div class="element feature actinoid width2 height2">
+                            <p class="number">
+                                31</p>
+                            <h3 class="symbol">
+                                Dyn</h3>
+                            <h2 class="name">
+                                Dynamic, intelligent layouts</h2>
+                        </div>
+                        <div class="element feature lanthanoid width2 height2">
+                            <p class="number">
+                                27</p>
+                            <h3 class="symbol">
+                                Srt</h3>
+                            <h2 class="name">
+                                Re–order items with&nbsp;sorting</h2>
+                        </div>
+                        <div class="element feature metalloid width2 height2">
+                            <p class="number">
+                                61</p>
+                            <h3 class="symbol">
+                                Pow</h3>
+                            <h2 class="name">
+                                Powerful methods, simple&nbsp;syntax</h2>
+                        </div>
+                        <div class="element feature alkaline-earth width2 height2">
+                            <p class="number">
+                                11</p>
+                            <h3 class="symbol">
+                                Flt</h3>
+                            <h2 class="name">
+                                Reveal &amp; hide items with&nbsp;filtering</h2>
+                        </div>
+                        <div class="element feature transition width2 height2">
+                            <p class="number">
+                                41</p>
+                            <h3 class="symbol">
+                                Ani</h3>
+                            <h2 class="name">
+                                Captivating animations</h2>
+                        </div>
+                        <div class="element feature halogen width2 height2">
+                            <p class="number">
+                                71</p>
+                            <h3 class="symbol">
+                                Pro</h3>
+                            <h2 class="name">
+                                Progressively enhanced for CSS3 transforms &amp;&nbsp;transitions</h2>
+                        </div>
+                        <div class="element feature post-transition width2 height2">
+                            <p class="number">
+                                51</p>
+                            <h3 class="symbol">
+                                Any</h3>
+                            <h2 class="name">
+                                Sort items by just about&nbsp;anything</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="span3">
+                <div class="inner">
+                    Right column
+                </div>
+            </aside>
+        </div>
+        <footer class="row">
+            <div class="span12">
+                <div class="inner">
+                    Footer
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
